@@ -7,5 +7,6 @@ __pycache__
 *.log
 ._*
 
-front/node_modules
-front/build
+node_modules
+build
+dist
