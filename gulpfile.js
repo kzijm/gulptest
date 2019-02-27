@@ -6,8 +6,8 @@ var concat = require('gulp-concat');
 
 gulp.task('sass', function () {
      // get scsss files from 2 locations
-     // provide common {base: location} for sourcemaps if you have duplicate names fron different locations 
-    return gulp.src(['app/_base/scss/**/*.scss', 'app/_site/scss/**/*.scss'],  { base: 'app' }) 
+     // provide common {base: location} for sourcemaps if you have duplicate names fron different locations
+    return gulp.src(['app/_base/scss/**/*.scss', 'app/_site/scss/**/*.scss'],  { base: 'app' })
         .pipe(sourcemaps.init())  // Process the original sources
         .pipe(sass()) // Converts all Sass files to CSS with gulp-sass
         .pipe(concat('build.css'))
@@ -54,7 +54,7 @@ gulp.task('browserSync', function () {
     })
 })
 
-gulp.task('watch', ['browserSync', 'sass', 'js', 'html', 'views'], function () {
+gulp.task('watch', gulp.series('browserSync', 'sass', 'js', 'html', 'views', function () {
     // Reloads the browser whenever SCSS HTML or JS files change
     gulp.watch('app/_base/scss/**/*.scss', ['sass']);
     gulp.watch('app/_site/scss/**/*.scss', ['sass']);
@@ -63,4 +63,4 @@ gulp.task('watch', ['browserSync', 'sass', 'js', 'html', 'views'], function () {
     gulp.watch('app/_site/views/*.html', ['views']);
     gulp.watch('app/_base/js/**/*.js', ['js']);
     gulp.watch('app/_site/js/**/*.js', ['js']);
-});
+}));

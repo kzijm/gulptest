@@ -4,7 +4,13 @@
   "description": "testing gulp",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "sass": "gulp sass",
+    "js": "gulp js",
+    "html": "gulp html",
+    "views": "gulp views",
+    "browsersynch": "gulp browsersynch",
+    "watch": "gulp watch"
   },
   "keywords": [
     "gulp"
@@ -12,11 +18,11 @@
   "author": "me",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^2.18.13",
-    "gulp": "^3.9.1",
+    "browser-sync": "^2.26.3",
+    "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.6.1"
+    "gulp-sourcemaps": "^2.6.5"
   },
   "dependencies": {
     "source-map": "^0.6.1"
