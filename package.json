@@ -4,7 +4,8 @@
   "description": "testing gulp",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "gulp test",
+    "default": "gulp default",
     "sass": "gulp sass",
     "js": "gulp js",
     "html": "gulp html",
@@ -25,6 +26,7 @@
     "gulp-sourcemaps": "^2.6.5"
   },
   "dependencies": {
+    "gulp-hub": "^4.2.0",
     "source-map": "^0.6.1"
   }
 }
