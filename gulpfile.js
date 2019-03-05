@@ -1,82 +1,60 @@
 var gulp = require('gulp');
-var sass = require('gulp-sass');
+// var plugins		= require('gulp-load-plugins')();
+// var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 
-var HubRegistry = require('gulp-hub');
+// var requireDir = require('require-dir');
+// var dir = requireDir('./tasks');
 
-/* load some files into the registry */
-var hub = new HubRegistry(['tasks/*.js']);
-console.log(hub);
-/* tell gulp to use the tasks just loaded */
-gulp.registry(hub);
+// var HubRegistry = require('gulp-hub');
+// /* load some files into the registry */
+// var hub = new HubRegistry(['tasks/*.js']);
+// /* tell gulp to use the tasks just loaded */
+// gulp.registry(hub);
 
-// gulp.task('sass', function () {
-//      // get scsss files from 2 locations
-//      // provide common {base: location} for sourcemaps if you have duplicate names fron different locations
-//     return gulp.src(['app/_base/scss/**/*.scss', 'app/_site/scss/**/*.scss'],  { base: 'app' })
-//         .pipe(sourcemaps.init())  // Process the original sources
-//         .pipe(sass()) // Converts all Sass files to CSS with gulp-sass
-//         .pipe(concat('build.css'))
-//         .pipe(sourcemaps.write()) // Add the map to modified source.
-//         .pipe(gulp.dest('dist/css'))
-//         .pipe(browserSync.reload({
-//             stream: true
-//     }))
-// });
+var tasks = require('./tasks/all');
 
-// gulp.task('js', function () {
-//     return gulp.src(['app/_base/js/**/*.js', 'app/_site/js/**/*.js'], { base: 'app' })  // get javascript files from 2 locations
-//         .pipe(sourcemaps.init())  // Process the original sources
-//         .pipe(concat('build.js'))
-//         .pipe(sourcemaps.write()) // Add the map to modified source.
-//         .pipe(gulp.dest('dist/js'))
-//         .pipe(browserSync.reload({
-//             stream: true
-//     }))
-// });
+console.log('htmlfiles ', tasks.htmlfiles);
+console.log('sassfiles ',  tasks.sassfiles);
+console.log('jsfiles ', tasks.jsfiles);
+console.log('viewfiles ', tasks.viewfiles);
 
-// gulp.task('html', function () {
-//     return gulp.src(['app/index.html'])
-//         .pipe(gulp.dest('dist/'))
-//         .pipe(browserSync.reload({
-//             stream: true
-//     }))
-// });
 
-// gulp.task('views', function () {
-//     return gulp.src(['app/_base/views/*.html','app/_site/views/*.html'])  // get html files from 3 locations
-//         .pipe(gulp.dest('dist/views/'))
-//         .pipe(browserSync.reload({
-//             stream: true
-//     }))
-// }),
+gulp.task('test', gulp.series(tasks.sassfiles, tasks.jsfiles, tasks.htmlfiles, tasks.viewfiles), function (done) {
+    console.log('test works');
+    done();
+})
 
-// gulp.task('test', function (done) {
-//     console.log('test works');
-//     done();
-// })
+// Logging
+gulp.on('task_stop', function(e) {
+    gutil.log('Finished', '\'' + e.task + '\'');
+});
 
-gulp.task('browserSync', function () {
+function reload(done) {
+    browserSync.reload();
+    done();
+}
+
+function serve(done) {
     browserSync.init({
         server: {
             baseDir: 'dist/'
         },
-    })
-});
+    });
+    done();
+}
 
-gulp.task('compile', gulp.series('browserSync', 'sass', 'js', 'html', 'views'));
-
-gulp.task('watch', function () {
+function watch() {
     // Reloads the browser whenever SCSS HTML or JS files change
-    gulp.watch('app/_base/scss/**/*.scss', 'sass');
-    // gulp.watch('app/_site/scss/**/*.scss', 'sass');
-    gulp.watch('app/*.html', 'html');
-    gulp.watch('app/_base/views/*.html', 'views');
-    // gulp.watch('app/_site/views/*.html', ['views']);
-    gulp.watch('app/_base/js/**/*.js', 'js');
-    // gulp.watch('app/_site/js/**/*.js', ['js']);
-});
+    gulp.watch('app/*/scss/**/*.scss', gulp.series(tasks.sassfiles, reload));
+    gulp.watch('app/*.html', gulp.series(tasks.htmlfiles, reload));
+    gulp.watch('app/*/views/*.html', gulp.series(tasks.viewfiles, reload));
+    gulp.watch('app/*/js/**/*.js', gulp.series(tasks.jsfiles, reload));
+}
 
-gulp.task('default', gulp.series('compile', 'watch'));
+gulp.task('compile', gulp.series(tasks.sassfiles, tasks.jsfiles, tasks.htmlfiles, tasks.viewfiles));
+
+// gulp.task('testing', gulp.series('test'));
+gulp.task('default', gulp.series('compile', serve, watch));
