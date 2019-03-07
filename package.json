@@ -28,8 +28,11 @@
     "gulp-sourcemaps": "^2.6.5"
   },
   "dependencies": {
+    "autoprefixer": "^9.4.10",
     "gulp-hub": "^4.2.0",
     "gulp-load-plugins": "^1.5.0",
+    "gulp-postcss": "^8.0.0",
+    "precss": "^4.0.0",
     "require-dir": "^1.2.0",
     "source-map": "^0.6.1"
   }

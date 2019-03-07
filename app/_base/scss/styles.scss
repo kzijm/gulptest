@@ -1,6 +1,10 @@
 // styles.scss
 .testingsass {
   width: percentage(5/7);
+
+  .nested {
+    width: 100px;
+  }
 }
 
 html {
