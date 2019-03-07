@@ -37,6 +37,11 @@ function reload(done) {
     done();
 }
 
+function stream(done) {
+    browserSync.stream();
+    done();
+}
+
 function serve(done) {
     browserSync.init({
         server: {

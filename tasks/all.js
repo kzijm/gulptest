@@ -10,7 +10,7 @@ var concat = require('gulp-concat');
 
 function htmlfiles() {
   return gulp
-    .src(['app/index.html']) // get javascript files from 2 locations
+    .src(['app/index.html'])
     .pipe(gulp.dest('dist/'));
     // .pipe(browserSync.reload({
     //   stream: true
