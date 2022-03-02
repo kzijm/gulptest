@@ -1,4 +1,4 @@
-# gulptest
+# Gulptest
 
 Based on https://css-tricks.com/gulp-for-beginners/
 
